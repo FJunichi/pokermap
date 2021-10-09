@@ -122,6 +122,7 @@
           windowOpened.close();
         }
         infoWindow[i].open(map, marker[i]);
+        map.setCenter(new google.maps.LatLng(position.lat,position.lng));
         windowOpened = infoWindow[i];
       }
     </script>
