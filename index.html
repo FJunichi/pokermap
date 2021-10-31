@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -12,29 +12,63 @@
         margin: 0;
         padding: 0;
       }
-      #sidebar-header {
-        position: fixed;
-      }
-      #sidebar {
+
+      #sidebar-group {
+        border: 1px solid #666;
+        background-color: white;
+        padding: 6px;
         position: absolute;
         top: 10%;
         left: 72%;
         width: 25%;
         height: 40%;
-        border: 1px solid #666;
-        padding: 6px;
-        background-color: white;
-        font-family: Meriyo UI;
         font-size: 14px;
+      }
+      #sidebar-header {
+        padding: 0px;
+        width:  inherit;
+        position: fixed;
+      }
+      #sidebar {
         overflow-y: scroll;
       }
+
+#nav {
+  margin-left: auto;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  overflow: unset;
+  overflow-x: scroll;
+}
+
+#nav ul {
+display: flex; 
+}
+#nav li {
+  width: 140px;
+  text-align: center;
+  background-color: #333;
+  height: 50px;
+  line-height: 50px;
+  margin-right: 2px;
+}
+ 
+#nav li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  padding: 40px;
+}
     </style>
   </head>
   <body>
     <div id="map"></div>
     <td>
-      <div id="sidebar">
+      <div id="sidebar-group">
         <div id="sidebar-header"></div>
+        <div id="sidebar">
+        </div>
       </div>
     </td>
     <script>
@@ -106,26 +140,43 @@
       }
 
       function setData(markerData){
-        var sidebar_html = "";
-        var sidebar_header_html = '<div>ヘッダー</div>';
-
-        for (var i = 0; i < markerData.length; i++) {
-          var latitude = markerData[i]['緯度'];
-          if (!latitude) { continue; }
-          addMarker(i, markerData[i]);
-          var name = markerData[i]['名称'];
-
-          sidebar_html += `<b>${i + 1}</b> <a href="javascript:openWindow(${i})">${name}<\/a><br />`;
-        }
-
-        document.getElementById("sidebar-header").innerHTML = 'ヘッダー';
-        document.getElementById("sidebar").innerHTML = sidebar_header_html + `<a target="_blank" href="https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit?usp=sharing">元データ(Google スプレッドシート)</a><br /><br /><br />` + sidebar_html;
+        createList( markerData );
       }
 
       function markerEvent(i) {
         marker[i].addListener('click', function() {
           openWindow(i);
         });
+      }
+
+      function createList ( markerData )
+      {
+        var sidebar_html = "";
+        var sidebar_header_html = '';
+
+        if (!markerData) {
+          sidebar_header_html = '<ul id="nav">'
+          sidebar_header_html += '<li><a href="#master">店舗マスタ</a></li>'
+          + '<li><a href="#list">店舗一覧</a></li>'
+          + '<li><a href="#sitemap">サイト</a></li>'
+          + '<li><a href="#2016">2016年</a></li>'
+          + '</ul>';
+        }
+
+        if (markerData)
+        {
+          for (var i = 0; i < markerData.length; i++) {
+            var latitude = markerData[i]['緯度'];
+            if (!latitude) { continue; }
+            addMarker(i, markerData[i]);
+            var name = markerData[i]['名称'];
+
+            sidebar_html += `<b>${i + 1}</b> <a href="javascript:openWindow(${i})">${name}<\/a><br />`;
+          }
+        }
+
+        document.getElementById("sidebar-header").innerHTML = sidebar_header_html;
+        document.getElementById("sidebar").innerHTML =  `<a target="_blank" href="https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit?usp=sharing">元データ(Google スプレッドシート)</a><br /><br /><br />` + sidebar_html;
       }
 
       function openWindow(i) {
@@ -136,6 +187,9 @@
         map.setCenter(marker[i].position);
         windowOpened = infoWindow[i];
       }
+
+      // createList();
+
     </script>
   </body>
 </html>
