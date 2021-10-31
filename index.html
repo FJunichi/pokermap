@@ -23,6 +23,7 @@
         width: 25%;
         height: 40%;
         font-size: 14px;
+        overflow-y: scroll;
       }
       #sidebar-header {
         padding: 0px;
@@ -30,7 +31,6 @@
         position: fixed;
       }
       #sidebar {
-        overflow-y: scroll;
       }
 
 #nav {
@@ -140,17 +140,6 @@ display: flex;
       }
 
       function setData(markerData){
-        createList( markerData );
-      }
-
-      function markerEvent(i) {
-        marker[i].addListener('click', function() {
-          openWindow(i);
-        });
-      }
-
-      function createList ( markerData )
-      {
         var sidebar_html = "";
         var sidebar_header_html = '';
 
@@ -161,6 +150,7 @@ display: flex;
           + '<li><a href="#sitemap">サイト</a></li>'
           + '<li><a href="#2016">2016年</a></li>'
           + '</ul>';
+          document.getElementById("sidebar-header").innerHTML = sidebar_header_html;
         }
 
         if (markerData)
@@ -175,9 +165,15 @@ display: flex;
           }
         }
 
-        document.getElementById("sidebar-header").innerHTML = sidebar_header_html;
         document.getElementById("sidebar").innerHTML =  `<a target="_blank" href="https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit?usp=sharing">元データ(Google スプレッドシート)</a><br /><br /><br />` + sidebar_html;
       }
+
+      function markerEvent(i) {
+        marker[i].addListener('click', function() {
+          openWindow(i);
+        });
+      }
+
 
       function openWindow(i) {
         if(windowOpened){
