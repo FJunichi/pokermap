@@ -48,7 +48,7 @@
       var infoWindow = [];
       var windowOpened;
       var SHEET_NAME = '店舗マスタ';
-      
+
       function parseData(data) {
         var keys = data.values[0];
         var markerData = [];
@@ -107,6 +107,8 @@
 
       function setData(markerData){
         var sidebar_html = "";
+        var sidebar_header_html = '<div>ヘッダー</div>';
+
         for (var i = 0; i < markerData.length; i++) {
           var latitude = markerData[i]['緯度'];
           if (!latitude) { continue; }
