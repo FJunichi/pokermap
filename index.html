@@ -47,7 +47,8 @@
       var marker = [];
       var infoWindow = [];
       var windowOpened;
-
+      var SHEET_NAME = '店舗マスタ';
+      
       function parseData(data) {
         var keys = data.values[0];
         var markerData = [];
@@ -74,7 +75,7 @@
         });
 
         var request = new XMLHttpRequest();
-        request.open('GET', `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/sheet1?key=${API_KEY}`, true);
+        request.open('GET', `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`, true);
         request.responseType = 'json';
 
         request.onload = function () {
