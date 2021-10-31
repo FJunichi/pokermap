@@ -12,6 +12,9 @@
         margin: 0;
         padding: 0;
       }
+      #sidebar-header {
+        position: fixed;
+      }
       #sidebar {
         position: absolute;
         top: 10%;
@@ -29,7 +32,11 @@
   </head>
   <body>
     <div id="map"></div>
-    <td><div id="sidebar"></div></td>
+    <td>
+      <div id="sidebar">
+        <div id="sidebar-header"></div>
+      </div>
+    </td>
     <script>
     const API_KEY = 'AIzaSyC_mgn4TjJ2jbhQUsbVpkxw-I9S2AoYl0g';
     const SHEET_ID = '18GF0p3jUODO8n0LFcANpKelv6heEkOiFYLBik3za4i4';
@@ -108,7 +115,8 @@
           sidebar_html += `<b>${i + 1}</b> <a href="javascript:openWindow(${i})">${name}<\/a><br />`;
         }
 
-        document.getElementById("sidebar").innerHTML = `<a target="_blank" href="https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit?usp=sharing">元データ(Google スプレッドシート)</a><br /><br /><br />` + sidebar_html;
+        document.getElementById("sidebar-header").innerHTML = 'ヘッダー';
+        document.getElementById("sidebar").innerHTML = sidebar_header_html + `<a target="_blank" href="https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit?usp=sharing">元データ(Google スプレッドシート)</a><br /><br /><br />` + sidebar_html;
       }
 
       function markerEvent(i) {
